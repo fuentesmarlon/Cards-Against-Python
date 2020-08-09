@@ -9,7 +9,7 @@
     - confirm puede ser "ok" o "no"
 
 - Init game (despues de  3 handshakes con la misma sesion)
-  - Servidor envia  -> {"action": "cartas", "cartas_blancas": (LIST) [card_w_id0 ... card_w_id4], "carta_negra": card_b_id}
+  - Servidor envia  -> {"action": "cartas", "cartas_blancas": (LIST) [card_w_id0 ... card_w_id4], "carta_negra": card_b_id, "jugadores", (LIST) [username1, username2, usernam3]}
     - cartas_w -> cartas para el jugador
     - carta_negra -> carta para la mesa
   - Servidor recibe -> {"action": "cartas_confirmation", "confirmation": (STRING) confrim}
@@ -28,6 +28,11 @@
 - Nueva ronda (justo despues de mandar los resultados anteriores)
   - Servidor envia  -> {"action": "cartas_nueva", "carta_blanca": card_w_id, "carta_negra": card_b_id}
   - Servidor recibe -> {"action": "cartas_confirmation", "confirmation": (STRING) confrim}
+    - confirm puede ser "ok" o "no"
+    
+- Finalizacion (justo despues de mandar los resultados de la ronda 10)
+  - Servidor envia  -> {"action": "fin_de_juego", "primero": (STRING) username, "segundo": (STRING) username, "tercero": (STRING) username}
+  - Servidor recibe -> {"action": "fin_de_juego", "confirmation": (STRING) confrim}
     - confirm puede ser "ok" o "no"
   
    
