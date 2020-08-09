@@ -1,7 +1,7 @@
 import socket
-
+import pickle
 # host and port to sent data
-HOST = socket.gethostname() 
+HOST = '127.0.0.1'
 PORT = 8080
 
 socket.setdefaulttimeout(30)
@@ -21,8 +21,7 @@ while True:
 
     # Received data
     data = conn.recv(4096)
-
+    data=pickle.loads(data)
     print(data)
 
-    conn.sendall(data)
     
