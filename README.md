@@ -16,12 +16,12 @@
     - confirm puede ser "ok" o "no"
     
 - Decision de carta del jugador
-  - Servidor recibe -> {"action": "jugar_carta", "carta": card_w_id}
+  - Servidor recibe -> {"action": "jugar_carta", "session_id": (INT) session_id, "carta": card_w_id}
   - Servidor envia  -> {"action": "cartas_jugadas", "cartas": (LIST) [card_w_id0 ... card_w_id4]}
     - cartas -> se devuelve unicamente las cartas de otros jugadores
 
 - Decision de ronda
-  - Servidor recibe -> {"action":"voto", "carta": card_w_id}
+  - Servidor recibe -> {"action":"voto", "session_id": (INT) session_id, "carta": card_w_id}
   - Servidor envia  -> {"action":"resultado", "ganador_p1": (STRING) username, "ganador_p2": (STRING) username, "puntos": (INT) puntos}
     - se devuelve luego de tener los tres votos
 
