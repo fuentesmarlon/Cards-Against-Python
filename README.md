@@ -20,7 +20,7 @@
 
 - Decision de ronda
   - Servidor recibe -> {"action":"voto", "session_id": (INT) session_id, "carta": card_w_id}
-  - Servidor envia  -> {"action":"resultado", "ganador_p1": (STRING) username, "ganador_p2": (STRING) username, "puntos": (INT) puntos}
+  - Servidor envia  -> {"action":"resultado", "primero": (STRING) username, "segundo": (STRING) username, "tercero": (STRING) username}
     - se devuelve luego de tener los tres votos
 
 - Nueva ronda (justo despues de mandar los resultados anteriores)
