@@ -19,7 +19,7 @@
     - cartas -> se devuelve unicamente las cartas de otros jugadores
 
 - Decision de ronda
-  - Servidor recibe -> {"action":"voto", "session_id": (INT) session_id, "carta": card_w_id}
+  - Servidor recibe -> {"action":"voto", "session_id": (INT) session_id, "user_name", (STRING) username, "carta": card_w_id}
   - Servidor envia  -> {"action":"resultado", "primero": (STRING) username, "segundo": (STRING) username, "tercero": (STRING) username}
     - se devuelve luego de tener los tres votos
 
@@ -27,7 +27,7 @@
   - Servidor envia  -> {"action": "cartas_nueva", "carta_blanca": card_w_id, "carta_negra": card_b_id}
     
 - Finalizacion (justo despues de mandar los resultados de la ronda 10)
-  - Servidor envia  -> {"action": "fin_de_juego", "primero": (STRING) username, "segundo": (STRING) username, "tercero": (STRING) username}
+  - Servidor envia  -> {"action": "fin_de_juego", "primero": (STRING) username, "puntos_p1" (INT) puntos, "segundo": (STRING) username, "puntos_p2" (INT) puntos, "tercero": (STRING) username, "puntos_p3" (INT) puntos,}
   
    
  
