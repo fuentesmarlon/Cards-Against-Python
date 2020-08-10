@@ -5,7 +5,7 @@
   - Servidor recibe -> {"action": "handshake", "user": (STRING) USER_NAME, "session_id": (INT) session_id}
     - session_id = 0  -> nuevo juego
     - session_id != 0 -> entrar a juego establecido
-  - Servidor envia  -> {"action": "handshake", "session_id": (INT) session_id, "confirmation": (STRING) confirm}
+  - Servidor envia  -> {"action": "handshake", "session_id": (INT) session_id, "user": (STRING) USER_NAME, "confirmation": (STRING) confirm}
     - confirm puede ser "ok" o "no"
 
 - Init game (despues de  3 handshakes con la misma sesion)
