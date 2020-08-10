@@ -27,7 +27,7 @@
   - Servidor envia  -> {"action": "cartas_nueva", "carta_blanca": card_w_id, "carta_negra": card_b_id}
     
 - Finalizacion (justo despues de mandar los resultados de la ronda 10)
-  - Servidor envia  -> {"action": "fin_de_juego", "primero": (STRING) username, "puntos_p1" (INT) puntos, "segundo": (STRING) username, "puntos_p2" (INT) puntos, "tercero": (STRING) username, "puntos_p3" (INT) puntos,}
+  - Servidor envia  -> {"action": "fin_de_juego", "primero": (STRING) username, "puntos_p1": (INT) puntos, "segundo": (STRING) username, "puntos_p2": (INT) puntos, "tercero": (STRING) username, "puntos_p3": (INT) puntos}
   
    
  
