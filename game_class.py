@@ -11,31 +11,41 @@ class game():
         self.rounds = 0
         self.rounds_cards = [[],[],[],[],[],[],[],[],[],[]]
         self.rounds_votes = [[],[],[],[],[],[],[],[],[],[]]
-        self.whitecards = [i for i in range(50)]
-        self.blackcards = [i for i in range(50)]
+        self.whitecards = [i for i in range(538)]
+        self.blackcards = [i for i in range(92)]
         self.turns = 0
 
         shuffle(self.whitecards)
         shuffle(self.blackcards)
 
     def set_player(self, name, user_id, conn):
-        
+
         if self.player1 == None:
             self.player1 = [name, user_id, conn, 0, []]
             self.players += 1
-            return 'ok'
+            return ('ok', name)
 
         elif self.player2 == None:
+            other_names = self.player1[0]
+
+            if name == other_names:
+                name += "2"
+
             self.player2 = [name, user_id, conn, 0, []]
             self.players += 1
-            return 'ok'
+            return ('ok', name)
 
         elif self.player3 == None:
+            other_names = [self.player1[0], self.player2[0]]
+
+            if name in other_names:
+                name += "3"
+
             self.player3 = [name, user_id, conn, 0, []]
             self.players += 1
-            return 'ok'
+            return ('ok', name)
 
-        return 'no'
+        return ('no', name)
 
     def get_player(self, user_name):
 

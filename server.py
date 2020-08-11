@@ -32,7 +32,15 @@ def sent_message(to_sent, conn):
 
     conn.sendall(msm_bits)
     
-
+def print_game_state(session_id):
+    game = sessions[session_id - 1]
+    print("---------------")
+    print(game.player1)
+    print(game.player2)
+    print(game.player3)
+    print(game.rounds_votes)
+    print("---------------")
+    
 while True:
 
     # Conection
@@ -40,7 +48,7 @@ while True:
     print("Connection: " + str(conn) + ", Addr: " + str(addr))
 
     # Received data
-    data = conn.recv(4096)
+    data = conn.recv(5120)
     data = json.loads(data.decode('utf-8'))
 
     # HANDSHAKE
@@ -49,6 +57,7 @@ while True:
         # Vars
         ses_id = data['session_id']
         confirm = "no"
+        name = data['user']
 
         # New session
         if ses_id == 0:
@@ -59,15 +68,15 @@ while True:
             sessions.append(new_session)
 
             # Add user
-            confirm = new_session.set_player(data['user'], addr, conn)
+            confirm, name = new_session.set_player(name, addr, conn)
 
         # Join session
         else:
             # Add user
-            confirm = sessions[ses_id - 1].set_player(data['user'], addr, conn)
+            confirm, name = sessions[ses_id - 1].set_player(name, addr, conn)
 
         # Sent confirmation
-        to_sent = {"action": "handshake", "session_id": ses_id, "confirmation": confirm}
+        to_sent = {"action": "handshake", "session_id": ses_id, "user":name, "confirmation": confirm}
         sent_message(to_sent, conn)
 
         # START ROUND 1
@@ -200,7 +209,7 @@ while True:
                     "segundo": places[1][0], "puntos_p2": places[1][1], "tercero": places[0][0], "puntos_p3": places[0][1]}
 
                 for i in tmp_votes_conns:
-                    sent_message(to_sent,conn)
+                    sent_message(to_sent,i)
 
 
                 
