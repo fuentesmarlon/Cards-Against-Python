@@ -2,13 +2,13 @@ import socket
 import json
 import bitarray
 import game_class
-
+import pickle 
 # host and port to sent data
 # HOST = socket.gethostname() 
 HOST = '127.0.0.1'
-PORT = 8888
+PORT = 8080
 
-socket.setdefaulttimeout(20)
+#socket.setdefaulttimeout(20)
 
 # Mount host
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -48,8 +48,10 @@ while True:
     print("Connection: " + str(conn) + ", Addr: " + str(addr))
 
     # Received data
-    data = conn.recv(5120)
-    data = json.loads(data.decode('utf-8'))
+    data = conn.recv(4096)
+    #data = json.loads(data.decode('utf-8'))
+    data = pickle.loads(data)
+    print(data)
 
     # HANDSHAKE
     if data['action'] == "handshake":
@@ -98,10 +100,10 @@ while True:
                     "carta_negra": black_card, "jugadores":players_users}
 
                 sent_message(to_sent, i[2])
-
+        continue
     # JUGAR_CARTA
     elif data['action'] == "jugar_carta":
-        
+        print("here")
         # Round variables
         tmp_session = sessions[data['session_id'] - 1]
         round_number = tmp_session.rounds
