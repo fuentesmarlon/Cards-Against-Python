@@ -36,7 +36,7 @@ else:
 
         data = s.recv(4096)
         data = json.loads(data.decode('utf-8'))
-        print(data)
+        
         if data["action"]=="handshake":
             if data["confirmation"]=="ok":
                 
@@ -107,11 +107,4 @@ else:
             else:
                 quit()
 
-# sent message
-
-
-# receive host response
-#data = s.recv(4096)
-
-#print(data)
 
