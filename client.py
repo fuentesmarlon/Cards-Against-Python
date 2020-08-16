@@ -4,9 +4,9 @@ from player import *
 from user_ui import *
 import json
 # host and port to sent data
-#HOST = 'redesgameserver.eastus.cloudapp.azure.com' 
-HOST = '127.0.0.1'
-PORT = 8080
+HOST = 'redesgameserver.eastus.cloudapp.azure.com' 
+#HOST = '127.0.0.1'
+PORT = 22
 
 
 flag=menu()
@@ -36,7 +36,7 @@ else:
 
         data = s.recv(4096)
         data = json.loads(data.decode('utf-8'))
-        
+        print(data)
         if data["action"]=="handshake":
             if data["confirmation"]=="ok":
                 
@@ -70,14 +70,18 @@ else:
             s.sendall(msg) 
             continue
         if data["action"]=="resultado":
-            if(data["primero"]==new_player.username):
-                new_player.add_points(5)
-            if(data["segundo"]==new_player.username):
-                new_player.add_points(3)
+            if(data["empate"]==0):
+                if(data["primero"]==new_player.username):
+                    new_player.add_points(5)
+                if(data["segundo"]==new_player.username):
+                    new_player.add_points(3)
+                else:
+                    new_player.add_points(0)
             else:
-                new_player.add_card(0)
+                new_player.add_points(1)
             print("At the end of that round, your points are:\n"+str(new_player.points))
         if data["action"]=="cartas_nueva":
+            print(data["carta_blanca"])
             new_player.add_card(data["carta_blanca"])
             print("New Round! A NEW card was added to your collection")
             display_info(white_cards,black_cards,data,new_player.cards)
@@ -92,19 +96,11 @@ else:
             continue
         if data["action"]=="fin_de_juego":
             print("\nAND TODAY'S GAME RANKING IS:\n")
-            print("WINNER\n"+data["primero"]+":"+str(data["puntos_p1"]))
-            print("LOSER\n"+data["segundo"]+":"+str(data["puntos_p2"]))
-            print("TONIGHTS BIGGEST LOSER\n"+data["tercero"]+str(data["puntos_p3"]))
+            print("WINNER\n"+data["primero"]+":"+str(data["puntos_p1"])+" points")
+            print("LOSER\n"+data["segundo"]+":"+str(data["puntos_p2"])+" points")
+            print("TONIGHTS BIGGEST LOSER\n"+data["tercero"]+":"+str(data["puntos_p3"])+" points")
 
-            finished=input("""
-                Play Again?
-                    1: F*ck Yeah.
-                    2. No B*tch           
-            
-            """)
-            if finished=="1":
-                break
-            else:
-                quit()
+            print(""" Thanks For Playing! """)
+            quit()
 
 

@@ -38,7 +38,7 @@ def dic_parser(value_type,Player,action_val):
         dic_server["user_name"]=Player.username
         dic_server["carta"]=action_val
 
-    print(dic_server)
+    
     #dic_server[value_send[0]]=value_send[1]
     msg=pickle.dumps(dic_server)
     
@@ -80,6 +80,8 @@ def display_info(white_cards,black_cards,dictionary_server,cards):
 
 
     chosen_black = dictionary_server["carta_negra"]
+
+    print("\n /*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*")
 
     print("\nThis Round's Card:\n"+black_cards[chosen_black])
 
