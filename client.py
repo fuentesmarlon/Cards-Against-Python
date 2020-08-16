@@ -5,8 +5,14 @@ from user_ui import *
 import json
 # host and port to sent data
 HOST = 'redesgameserver.eastus.cloudapp.azure.com' 
+<<<<<<< Updated upstream
 #HOST = '127.0.0.1'
 PORT = 22
+=======
+PORT = 22
+# HOST = '127.0.0.1'
+# PORT = 8080
+>>>>>>> Stashed changes
 
 
 flag=menu()

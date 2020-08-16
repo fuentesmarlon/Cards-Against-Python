@@ -4,15 +4,16 @@ import bitarray
 import game_class
 import pickle 
 # host and port to sent data
-# HOST = socket.gethostname() 
-HOST = '127.0.0.1'
-PORT = 8080
-
-#socket.setdefaulttimeout(20)
+HOST = socket.gethostname() 
+PORT = 22
+# HOST = '127.0.0.1'
+# PORT = 8080
 
 # Mount host
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.bind((HOST, PORT))
+
+print("Listening")
 
 s.listen()
 
@@ -27,19 +28,13 @@ sessions = []
 def sent_message(to_sent, conn):
 
     to_sent = json.dumps(to_sent)
+    
     msm_bits = bitarray.bitarray()
     msm_bits.frombytes(to_sent.encode('utf-8'))
 
     conn.sendall(msm_bits)
     
-def print_game_state(session_id):
-    game = sessions[session_id - 1]
-    print("---------------")
-    print(game.player1)
-    print(game.player2)
-    print(game.player3)
-    print(game.rounds_votes)
-    print("---------------")
+
     
 while True:
 
@@ -48,10 +43,15 @@ while True:
     print("Connection: " + str(conn) + ", Addr: " + str(addr))
 
     # Received data
-    data = conn.recv(4096)
-    #data = json.loads(data.decode('utf-8'))
-    data = pickle.loads(data)
-    print(data)
+    try:
+        data = conn.recv(4096)
+        data = pickle.loads(data)
+        data['action']
+        print(data)
+        
+    except:
+        continue
+    
 
     # HANDSHAKE
     if data['action'] == "handshake":
@@ -101,6 +101,7 @@ while True:
 
                 sent_message(to_sent, i[2])
         continue
+
     # JUGAR_CARTA
     elif data['action'] == "jugar_carta":
         print("here")
@@ -152,27 +153,43 @@ while True:
             tmp_votes_cards = [i[0] for i in tmp_votes]
             tmp_votes_conns = [i[1] for i in tmp_votes]
             tmp_votes_nplay = [i[2] for i in tmp_votes]
-            tmp_first  = max(tmp_votes_cards)
-            tmp_second = min(tmp_votes_cards)
+            
+            tmp_first= max(set(tmp_votes_cards), key = tmp_votes_cards.count)
+            tmp_second = min(set(tmp_votes_cards), key = tmp_votes_cards.count)
+
+            empate = 0
+
+            count = 0
+            for i in range(3):
+                if tmp_votes_cards[i] == tmp_first:
+                    count += 1
+
+            if count == 1:
+                empate = 1
 
             # Add points and get winners
             players = [tmp_session.player1, tmp_session.player2, tmp_session.player3]
             first_place, second_place, third_place = ('','','')
 
-            for i in players:
-                if tmp_first in i[4]:
-                    i[3] += 5           # first place +5
-                    first_place = i[0]
+            if empate == 0:
+                for i in players:
+                    if tmp_first in i[4]:
+                        i[3] += 5           # first place +5
+                        first_place = i[0]
 
-                elif tmp_second in i[4]:
-                    i[3] += 3           # second place +3
-                    second_place = i[0]
+                    elif tmp_second in i[4]:
+                        i[3] += 3           # second place +3
+                        second_place = i[0]
 
-                else:
-                    third_place = i[0]  # third place +0
+                    else:
+                        third_place = i[0]  # third place +0
+            else:
+                first_place = ""
+                second_place = ""
+                third_place = ""
             
             # Sent results
-            to_sent = {"action":"resultado","primero":first_place,"segundo":second_place,"tercero":third_place}
+            to_sent = {"action":"resultado","primero":first_place,"segundo":second_place,"tercero":third_place, "empate":empate}
             
             for i in tmp_votes_conns:
                 sent_message(to_sent, i)
@@ -181,7 +198,7 @@ while True:
             tmp_session.rounds += 1
 
             # NEW ROUND
-            if tmp_session.rounds < 10:
+            if tmp_session.rounds < 3:
 
                 # Sent new cards to each player
                 black_card = tmp_session.get_blackcards(1)[0]
@@ -212,6 +229,10 @@ while True:
 
                 for i in tmp_votes_conns:
                     sent_message(to_sent,i)
+
+    #killswitch
+    elif data['action'] == 'kill_server':
+        break
 
 
                 
