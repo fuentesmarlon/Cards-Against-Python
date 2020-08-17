@@ -11,7 +11,7 @@ mi_usuario = sys.argv[1]
 mi_id = sys.argv[2]
 
 # IP = 'redesgameserver.eastus.cloudapp.azure.com' 
-# PORT = 21
+# PORT = 220
 
 def recibir_mensajes(mensaje):
     if mensaje:
