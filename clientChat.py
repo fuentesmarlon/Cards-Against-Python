@@ -1,9 +1,13 @@
 import socket
 import sys
+import _thread as thread
+import threading
 
 HEADER_LENGTH = 10
 IP = "127.0.0.1"
 PORT = 1234
+TIMEOUT = 4
+mi_usuario = ""
 
 def recibir_mensajes(mensaje):
     if mensaje:
@@ -28,13 +32,37 @@ def recibir_mensajes(mensaje):
             usr_len = len(usuario)
             ab2 = "-" * (usr_len + 4)
 
-            print(f"{ab2}")
-            print(f"| {usuario} | ")
-            print(f"{ab2}")
-            print(f"{mensaje}\n")
+            print("")
+            print(f"    {ab2}")
+            print(f"    | {usuario} | ")
+            print(f"    {ab2}")
+            print(f"    {mensaje}")
+            print(mi_usuario + ":")
 
     except:
         pass
+
+def time_up():
+    recibir_mensajes('update')
+    timer = threading.Timer(10, time_up)
+    timer.start()
+    return 0
+
+
+def timed_input(prompt , timeout=10.0):
+    print(prompt, end=' ')    
+    
+    timer = threading.Timer(timeout, time_up)
+    astring = None
+
+    try:
+        timer.start()
+        astring = input()
+    except:
+        pass
+
+    timer.cancel()
+    return astring
 
 print("""
  #####                                    #                                                                 
@@ -69,9 +97,11 @@ id_header = f"{len(id_usuario):<{HEADER_LENGTH}}".encode("UTF-8")
 client_socket.send(usuario_header + usuario) 
 
 while True: 
-    mensaje = input(f"{mi_usuario}: \n")
-    print("")
-    # time.sleep(3)
+
+    mensaje = timed_input(f"{mi_usuario}: \n")
+
+    if mensaje == "exit":
+        break
 
     recibir_mensajes(mensaje)
 
