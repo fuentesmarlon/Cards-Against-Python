@@ -8,6 +8,8 @@ Librerias
 - bitarray
 - python-csv
 
+El juego esta diseñado para Windows
+
 ### Correr el programa
 El programa actualmente esta puesto para jugar localmente. Si esto es lo que se quiere, solo es necesario correr el programa server.py y luego en tres 
 terminales distintas client.py, ambos sin ningun parametro. De lo contrario, si se quiere usar el servidor que se tiene para el juego (hablar con los administradores
