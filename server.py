@@ -1,19 +1,30 @@
+import os
+import pathlib
 import socket
 import json
 import bitarray
 import game_class
 import pickle 
 # host and port to sent data
-HOST = socket.gethostname() 
-PORT = 22
-# HOST = '127.0.0.1'
-# PORT = 8080
+HOST = '127.0.0.1'
+PORT = 8080
+# HOST = socket.gethostname() 
+# PORT = 22
+
+ROUNDS_N = 5 # number of rounds
 
 # Mount host
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.bind((HOST, PORT))
 
-print("Listening")
+# Mount host for chat
+chat_server = pathlib.Path("serverChat.py").absolute()
+chat_server = os.path.join(chat_server)
+
+os.system('start cmd.exe /k python "' + str(chat_server) + '"')
+
+# Initial print
+print("Listening...")
 
 s.listen()
 
@@ -35,7 +46,6 @@ def sent_message(to_sent, conn):
     conn.sendall(msm_bits)
     
 
-    
 while True:
 
     # Conection
@@ -198,7 +208,7 @@ while True:
             tmp_session.rounds += 1
 
             # NEW ROUND
-            if tmp_session.rounds < 3:
+            if tmp_session.rounds < ROUNDS_N:
 
                 # Sent new cards to each player
                 black_card = tmp_session.get_blackcards(1)[0]

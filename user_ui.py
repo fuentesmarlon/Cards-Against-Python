@@ -4,13 +4,32 @@ import pickle
 import csv
 
 def menu():
+    print("""
+ #####                                    #                                                                 
+#     #   ##   #####  #####   ####       # #    ####    ##   # #    #  ####  #####     
+#        #  #  #    # #    # #          #   #  #    #  #  #  # ##   # #        #         
+#       #    # #    # #    #  ####     #     # #      #    # # # #  #  ####    #         
+#       ###### #####  #    #      #    ####### #  ### ###### # #  # #      #   #      
+#     # #    # #   #  #    # #    #    #     # #    # #    # # #   ## #    #   #      
+ #####  #    # #    # #####   ####     #     #  ####  #    # # #    #  ####    #      
+                                      
+                                                                                                                                                                                     
+#     # #    # #    #   ##   #    # # ##### #   #  ##### #####
+#     # #    # ##  ##  #  #  ##   # #   #    # #     #   # # #
+####### #    # # ## # #    # # #  # #   #     #      #   #   #
+#     # #    # #    # ###### #  # # #   #     #         
+#     # #    # #    # #    # #   ## #   #     #         
+#     #  ####  #    # #    # #    # #   #     #         
+""")
+
     choosen= input("""
-    CARDS AGAINST PYTHON
+    CARDS AGAINST PYTHON VERSION
 
     CHOOSE ONE OPTION:
         1. New Game
         2. Join Session
-        3. Exit game
+        3. Instructions
+        4. Exit game
     """)
 
     return choosen 

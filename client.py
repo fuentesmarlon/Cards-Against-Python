@@ -1,20 +1,68 @@
+import os
+import pathlib
 import socket
 import bitarray
 from player import *
 from user_ui import *
 import json
 # host and port to sent data
-HOST = 'redesgameserver.eastus.cloudapp.azure.com' 
-PORT = 22
-# HOST = '127.0.0.1'
-# PORT = 8080
-
+HOST = '127.0.0.1'
+PORT = 8080
+# HOST = 'redesgameserver.eastus.cloudapp.azure.com' 
+# PORT = 22
 
 flag=menu()
 
 white_cards,black_cards = load_cards()
 
-if flag=="3":
+# instructions
+while flag == "3":
+    print('''
+    
+    INSTRUCTIONS:
+    1. Create a new game or join an existing session. When you create a new game
+    a session id will be given to you. Pass this number to your friends so they 
+    can join you in your session. If you are joining a session ask your friend for
+    the session id, you can use this number to join him. (NUMBER OF PLAYERS: 3)
+
+    2. Each round the same new card with a statement or question will be given to all 
+    the players. This is the black card. Then each player will we dealt 5 white cards. 
+    This cards are use to fill the statement or question given by the black card, and
+    they are unique to you.
+
+    3. For each round choose one of your white cards, the one that creates the funniest
+    statement when joined with the black card. And dont worry, every time you play a new
+    white card will be dealt to you at the end of each round.
+
+    4. After choosing which card to play, you will have to vote for which of the cards 
+    played by everyone is the funniest. And I know what you are thinking and NO YOU CANT 
+    VOTE YOURSELF. Come on now, dont be selfish.
+    
+    5. The winner of the round will get 5 points, the second place 3, and the last place 0.
+    In the unlikely event that there is a tie, everyone will get 1 point, you know as a
+    consolation prize for being equally unfunny.
+
+    6. The game consist of 10 rounds, so have fun and try using the chat to talk to 
+    everyone.
+
+    7. Ok now, if you have read this far, congrats! but you probably arent a fun person. You are
+    that kind of person that reads the user agrement and follows all the instructions of the
+    ikea furniture. But hey at least you now know how play this game, you propably would have 
+    figure it out by yourself. So yeah you just waisted 5 minutes of your life reading this,
+    sorry.
+    ''')
+
+    flag = input("""
+    CARDS AGAINST PYTHON VERSION
+
+    CHOOSE ONE OPTION:
+        1. New Game
+        2. Join Session
+        3. Instructions
+        4. Exit game
+    """)
+
+if flag=="4":
     quit()
     
 else:
@@ -34,7 +82,6 @@ else:
         
         #Receive Server response 
         
-
         data = s.recv(4096)
         data = json.loads(data.decode('utf-8'))
         
@@ -43,6 +90,12 @@ else:
                 
                 print("New game created! Your Session ID is:"+str(data["session_id"]))
                 new_player.assign_session(data["session_id"])
+
+                chat = pathlib.Path("clientChat.py").absolute()
+                chat = os.path.join(chat)
+
+                os.system('start cmd.exe /k python "' + str(chat) + '" ' + str(data["user"]) + ' ' \
+                     + str(data["session_id"]))
                 
                 continue
             else:
@@ -80,11 +133,11 @@ else:
                     new_player.add_points(0)
             else:
                 new_player.add_points(1)
-            print("At the end of that round, your points are:\n"+str(new_player.points))
+            print("\nAt the end of that round, your points are:\n"+str(new_player.points))
         if data["action"]=="cartas_nueva":
-            print(data["carta_blanca"])
+            
             new_player.add_card(data["carta_blanca"])
-            print("New Round! A NEW card was added to your collection")
+            print("\nNew Round! A NEW card was added to your collection")
             display_info(white_cards,black_cards,data,new_player.cards)
 
             played_card = int(input("\n What card will you play?\n (Please insert a number)\n"))

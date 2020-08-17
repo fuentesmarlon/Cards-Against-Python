@@ -6,8 +6,12 @@ import threading
 HEADER_LENGTH = 10
 IP = "127.0.0.1"
 PORT = 1234
-TIMEOUT = 4
-mi_usuario = ""
+TIMEOUT = 10
+mi_usuario = sys.argv[1]
+mi_id = sys.argv[2]
+
+# IP = 'redesgameserver.eastus.cloudapp.azure.com' 
+# PORT = 21
 
 def recibir_mensajes(mensaje):
     if mensaje:
@@ -37,19 +41,19 @@ def recibir_mensajes(mensaje):
             print(f"    | {usuario} | ")
             print(f"    {ab2}")
             print(f"    {mensaje}")
-            print(mi_usuario + ":")
+            print("\n" + mi_usuario + ":")
 
     except:
         pass
 
 def time_up():
     recibir_mensajes('update')
-    timer = threading.Timer(10, time_up)
+    timer = threading.Timer(TIMEOUT, time_up)
     timer.start()
     return 0
 
 
-def timed_input(prompt , timeout=10.0):
+def timed_input(prompt , timeout=TIMEOUT):
     print(prompt, end=' ')    
     
     timer = threading.Timer(timeout, time_up)
@@ -82,8 +86,8 @@ print("""
 #     #  ####  #    # #    # #    # #   #     #       #####  #    # #    #   #   
 """)
 
-mi_usuario = input("Usuario: ")
-mi_id = input("Usuario id: ")
+print("User: " + mi_usuario + "\n")
+
 client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 client_socket.connect((IP, PORT))
 client_socket.setblocking(False)
