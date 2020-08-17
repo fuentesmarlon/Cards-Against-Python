@@ -6,7 +6,7 @@ IP = "127.0.0.1"
 PORT = 1234
 
 # IP = socket.gethostname() 
-# PORT = 21
+# PORT = 220
 
 server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
