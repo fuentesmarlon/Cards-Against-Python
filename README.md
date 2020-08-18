@@ -8,7 +8,8 @@ Librerias
 - bitarray
 - python-csv
 
-El juego esta diseñado para Windows
+El juego esta diseñado para Windows. Sin embargo, si se puede correr en otros sistemas operativos solo que se tendra que correr el chat por separado. Para correr el
+chat separado se corre "python clientChat.py [USER_NAME] [ID DE LA SESION]".
 
 ### Correr el programa
 El programa actualmente esta puesto para jugar localmente. Si esto es lo que se quiere, solo es necesario correr el programa server.py y luego en tres 
