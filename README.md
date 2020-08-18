@@ -15,7 +15,8 @@ chat separado se corre "python clientChat.py [USER_NAME] [ID DE LA SESION]".
 El programa actualmente esta puesto para jugar localmente. Si esto es lo que se quiere, solo es necesario correr el programa server.py y luego en tres 
 terminales distintas client.py, ambos sin ningun parametro. De lo contrario, si se quiere usar el servidor que se tiene para el juego (hablar con los administradores
 para asegurarse que el servidor este activo) y luego en el programa del cliente habrá que quitar de comentarios la parte de HOST y PORT que se encuentran comentadas
-en las lineas 11 y 12, igual con el chat en la parte de IP y PORT en las lineas 11 y 12. Luego solo es necesario correr el programa cliente.py en tres computadoras.
+en las lineas 11 y 12, igual con el chat en la parte de IP y PORT en las lineas 11 y 12. Luego solo es necesario correr el programa cliente.py en tres computadoras. De igual
+manera el servidor y servidorChat tambien se encuentra en localhost, para cambiarlo solo es necesario quitar de comentarios el HOST e PORT puesto en comentario.
 
 ### Protocolo de comunicación cliente servidor 
 - Handshake
